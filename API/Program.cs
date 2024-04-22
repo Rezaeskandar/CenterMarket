@@ -10,6 +10,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<CenterMarketContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// for to allowing frontend to make the request to the api 
+builder.Services.AddCors();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -18,6 +20,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// allowing any http method and any header but just from http://localhost:3000" 
+app.UseCors(opt => opt.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000", "http://localhost:3001"));
 
 app.UseHttpsRedirection();
 
