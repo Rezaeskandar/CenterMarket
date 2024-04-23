@@ -1,35 +1,36 @@
-import { useEffect, useState } from "react";
-import { Product } from "../models/Product";
+
 import Catalog from "../../features/catalog/Catalog";
+import { Container, CssBaseline, ThemeProvider, createTheme } from "@mui/material";
+import Header from "./Header";
+import { useState } from "react";
 
 function App() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [darkMode, setdarkMode] = useState(false)
+  const palletType = darkMode ? 'dark' : 'light';
+  const theme = createTheme({
+    palette: {
+      mode: palletType,
+      background:{default:palletType==='light'? '#eaeaea':'#121212'} 
+  }})
 
-  function addProduct() {
-    setProducts((prevState) => [
-      ...prevState,
-      {
-        id: prevState.length + 101,
-        name: "New Product" + prevState.length + 1,
-        description: "New Description",
-        price: prevState.length * 100 * 100,
-        pictureUrl: "https://via.placeholder.com/150",
-        brand: "New Brand",
-      },
-    ]);
+  // switching the darkmode or lightmode 
+  function handleThemeChange(){
+    setdarkMode(!darkMode)
   }
-
-  useEffect(() => {
-    fetch("http://localhost:5000/api/products")
-      .then((response) => response.json())
-      .then((data) => setProducts(data));
-  }, []);
+  
   return (
-    <div>
-      <h1>Welcome to Cenrer-Market </h1>
-      <Catalog products={products} addProduct ={addProduct}/>
+    <>
+    {/* using CssBaseline to reset the default styles */}
+    <ThemeProvider theme={theme}>
+
+    <CssBaseline/>
+      <Header darkMode={darkMode} handleThemeChange={handleThemeChange}/>
+      <Container>
+        <Catalog/>
+      </Container>
     
-    </div>
+    </ThemeProvider>
+    </>
   );
 }
 

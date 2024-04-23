@@ -1,21 +1,21 @@
 import { Product } from "../../app/models/Product";
+import ProductList from "./ProductList";
+import { useState, useEffect } from "react";
 
-interface Props {
-    products: Product[];
-    addProduct: () => void;
-}
-export default function Catalog({products, addProduct}: Props) {
+
+export default function Catalog() {
+  const [products, setProducts] = useState<Product[]>([]);
+
+  
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/products")
+      .then((response) => response.json())
+      .then((data) => setProducts(data));
+  }, []);
   return (
     <>
-      <h1>Catalog</h1>
-        {products &&
-            products.map((product) => (
-            <li key={product.id}>
-                {product.name}
-                {product.price}
-            </li>
-            ))}
-        <button onClick={addProduct}>Add new product </button>
-    </>
+      <ProductList products={products}/>
+      </>
   );
 }
