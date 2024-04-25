@@ -7,12 +7,12 @@ using Microsoft.EntityFrameworkCore;
 namespace API.Controllers
 {
   
-    public  class ProductsController : ControllerBase
+    public  class ProductsController : BaseApiController
     {
         private readonly CenterMarketContext _context ;
         public ProductsController(CenterMarketContext context) 
         {
-            this._context = context;
+            _context = context;
             
         }
 
