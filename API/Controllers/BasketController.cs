@@ -19,33 +19,19 @@ namespace API.Controllers
             
         }
 
-        [HttpGet]
+        [HttpGet(Name ="GetBasket")]
         public async Task<ActionResult<BasketDto>> GetBasket()
         {
             var basket = await RetriveBsket();
 
             if (basket == null) return NotFound();
-            return new BasketDto
-            {
-                Id = basket.Id,
-                BuyerId = basket.BuyerId,
-                Items = basket.Items.Select(item => new BasketItemDto 
-                {
-                    ProductId =item.ProductId,
-                    Name= item.Product.Name,
-                    Price = item.Product.Price,
-                    PictureUrl = item.Product.PictureUrl,
-                    Type = item.Product.Type,
-                    Brand = item.Product.Brand,
-                    Quantity = item.Quantity
-
-
-                }).ToList()
-            };
+            return MapBaskeTotDto(basket);
         }
 
+       
+
         [HttpPost]
-        public async Task<ActionResult> AddItemToBasket(int productId, int quantity){
+        public async Task<ActionResult<BasketDto>> AddItemToBasket(int productId, int quantity){
             // get the basket || // create the basket 
             var basket = await RetriveBsket();
             if(basket == null) basket = CreateBasket();
@@ -59,7 +45,7 @@ namespace API.Controllers
             
             // save the changes 
             var result =await _context.SaveChangesAsync() >0;
-           if(result) return StatusCode(201);
+           if(result) return CreatedAtRoute("GetBasket", MapBaskeTotDto(basket));
 
            return BadRequest(new ProblemDetails{Title ="Problem saving item to basket"});
         }
@@ -76,7 +62,7 @@ namespace API.Controllers
             basket.RemoveItem(productId,quantity);
             // save the changes 
             var result = await _context.SaveChangesAsync()>0;
-
+ 
             if(result) return Ok();
             
             return BadRequest(new ProblemDetails{Title = "Problem removing item from the the basket"}); 
@@ -99,6 +85,27 @@ namespace API.Controllers
             var basket =new Basket {BuyerId =buyerId};
             _context.Baskets.Add(basket); 
             return basket;
+        }
+
+         private BasketDto MapBaskeTotDto(Basket basket)
+        {
+            return new BasketDto
+            {
+                Id = basket.Id,
+                BuyerId = basket.BuyerId,
+                Items = basket.Items.Select(item => new BasketItemDto
+                {
+                    ProductId = item.ProductId,
+                    Name = item.Product.Name,
+                    Price = item.Product.Price,
+                    PictureUrl = item.Product.PictureUrl,
+                    Type = item.Product.Type,
+                    Brand = item.Product.Brand,
+                    Quantity = item.Quantity
+
+
+                }).ToList()
+            };
         }
 
     }
