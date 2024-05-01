@@ -6,6 +6,7 @@ import {
   TableCell,
   TableContainer,
   TableRow,
+  TextField,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -14,26 +15,58 @@ import { Product } from "../../app/models/Product";
 import agent from "../../app/api/agent";
 import NotFound from "../../app/errors/NotFound";
 import LoadingComponent from "../../app/layout/LoadingComponent";
+import { useCenterMarketContext } from "../../app/context/CenterMarketContext";
+import { LoadingButton } from "@mui/lab";
 
 function ProductDtails() {
+  const { basket, setBasket, removeItem } = useCenterMarketContext();
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
+  const [quantity, setQuantity] = useState(0);
+  const [submitting, setsubmitting] = useState(false);
+  const item = basket?.items.find((i) => i.productId === product?.id);
 
   useEffect(() => {
+    if (item) setQuantity(item.quantity);
     id &&
       agent.Catalog.details(parseInt(id))
         .then((response) => setProduct(response))
         .catch((error) => console.log(error))
         .finally(() => setLoading(false));
-  }, [id]);
+  }, [id, item]);
+
+  // handel the textField input
+  function handelInputChange(event: any) {
+    if (event.target.value >= 0) {
+      setQuantity(parseInt(event.target.value));
+    }
+  }
+
+  // add to the busket button
+  function handelUppdateCard() {
+    setsubmitting(true);
+    if (!item || quantity > item.quantity) {
+      const uppdatedQuantity = item ? quantity - item.quantity : quantity;
+      agent.Basket.addItem(product?.id!, uppdatedQuantity)
+        .then((basket) => setBasket(basket))
+        .catch((error) => console.log(error))
+        .finally(() => setsubmitting(false));
+    } else {
+      const uppdatedQuantity = item.quantity - quantity;
+      agent.Basket.removeItem(product?.id!, uppdatedQuantity)
+        .then(() => removeItem(product?.id!, uppdatedQuantity))
+        .catch((error) => console.log(error))
+        .finally(() => setsubmitting(false));
+    }
+  }
 
   return (
     <>
       {loading ? (
-        <LoadingComponent message="Loading product..."/>
+        <LoadingComponent message="Loading product..." />
       ) : !product ? (
-        <NotFound/>
+        <NotFound />
       ) : (
         <Grid container spacing={6}>
           <Grid item xs={6}>
@@ -75,6 +108,32 @@ function ProductDtails() {
                 </TableBody>
               </Table>
             </TableContainer>
+            <Grid container spacing={2}>
+              <Grid xs={6} marginTop={2}>
+                <TextField
+                  onChange={handelInputChange}
+                  variant="outlined"
+                  type="number"
+                  label=" Quantity in Card"
+                  fullWidth
+                  value={quantity}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <LoadingButton
+                disabled ={item?.quantity ===quantity || !item &&quantity ===0}
+                  loading={submitting}
+                  onClick={handelUppdateCard}
+                  sx={{ height: "55px" }}
+                  color="primary"
+                  size="large"
+                  variant="contained"
+                  fullWidth
+                >
+                  {item ? "Upadate Quantity" : "Add to Card"}
+                </LoadingButton>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       )}
