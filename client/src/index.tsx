@@ -9,13 +9,16 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { RouterProvider } from "react-router-dom";
 import { router } from "./app/router/Routes";
+import { CenterMarketProvider } from "./app/context/CenterMarketContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode> 
-    <RouterProvider router={router}/>
+    <CenterMarketProvider>
+      <RouterProvider router={router}/>
+    </CenterMarketProvider>
   </React.StrictMode>
 );
 
