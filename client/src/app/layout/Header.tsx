@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Link, NavLink } from "react-router-dom";
-import { useCenterMarketContext } from "../context/CenterMarketContext";
+import { useAppSelector } from "../store/configureStore";
 
 interface Props {
   darkMode: boolean;
@@ -41,7 +41,7 @@ const navStyles = {
 };
 
 function Header({ darkMode, handleThemeChange }: Props) {
-  const {basket} = useCenterMarketContext();
+  const {basket} = useAppSelector(state => state.basket);
   const ItemCont = basket?.items.reduce((sum,item)=> sum+item.quantity,0)
   return (
     <AppBar position="static" sx={{ mb: 4 }}>

@@ -3,7 +3,7 @@ import App from "../layout/App";
 import HomePage from "../../features/home/HomePage";
 import ProductDtails from "../../features/catalog/ProductDtails";
 import AboutPage from "../../features/about/AboutPage";
-import { ContactPage } from "@mui/icons-material";
+import ContactPage  from "../../features/contact/ContactPage";
 import Catalog from "../../features/catalog/Catalog";
 import ServerError from "../errors/ServerError";
 import NotFound from "../errors/NotFound";

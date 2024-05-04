@@ -15,11 +15,13 @@ import { Product } from "../../app/models/Product";
 import agent from "../../app/api/agent";
 import NotFound from "../../app/errors/NotFound";
 import LoadingComponent from "../../app/layout/LoadingComponent";
-import { useCenterMarketContext } from "../../app/context/CenterMarketContext";
 import { LoadingButton } from "@mui/lab";
+import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
+import { removeItem, setBasket } from "../basket/basketSlice";
 
 function ProductDtails() {
-  const { basket, setBasket, removeItem } = useCenterMarketContext();
+  const { basket } = useAppSelector(state=> state.basket);
+  const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -49,13 +51,13 @@ function ProductDtails() {
     if (!item || quantity > item.quantity) {
       const uppdatedQuantity = item ? quantity - item.quantity : quantity;
       agent.Basket.addItem(product?.id!, uppdatedQuantity)
-        .then((basket) => setBasket(basket))
+        .then((basket) => dispatch(setBasket(basket)))
         .catch((error) => console.log(error))
         .finally(() => setsubmitting(false));
     } else {
       const uppdatedQuantity = item.quantity - quantity;
       agent.Basket.removeItem(product?.id!, uppdatedQuantity)
-        .then(() => removeItem(product?.id!, uppdatedQuantity))
+        .then(() => dispatch(removeItem({productId: product?.id!, quantity: uppdatedQuantity})))
         .catch((error) => console.log(error))
         .finally(() => setsubmitting(false));
     }
@@ -121,7 +123,7 @@ function ProductDtails() {
               </Grid>
               <Grid item xs={6}>
                 <LoadingButton
-                disabled ={item?.quantity ===quantity || !item &&quantity ===0}
+                disabled={item?.quantity === quantity || (!item && quantity === 0)}
                   loading={submitting}
                   onClick={handelUppdateCard}
                   sx={{ height: "55px" }}
@@ -142,3 +144,4 @@ function ProductDtails() {
 }
 
 export default ProductDtails;
+
