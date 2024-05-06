@@ -17,16 +17,16 @@ import NotFound from "../../app/errors/NotFound";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import { LoadingButton } from "@mui/lab";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { removeItem, setBasket } from "../basket/basketSlice";
+import { addBasketItemAsync, removeBasketItemAsync } from "../basket/basketSlice";
 
 function ProductDtails() {
-  const { basket } = useAppSelector(state=> state.basket);
+  const { basket,status } = useAppSelector(state=> state.basket);
   const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(0);
-  const [submitting, setsubmitting] = useState(false);
+  
   const item = basket?.items.find((i) => i.productId === product?.id);
 
   useEffect(() => {
@@ -47,19 +47,13 @@ function ProductDtails() {
 
   // add to the busket button
   function handelUppdateCard() {
-    setsubmitting(true);
+   
     if (!item || quantity > item.quantity) {
       const uppdatedQuantity = item ? quantity - item.quantity : quantity;
-      agent.Basket.addItem(product?.id!, uppdatedQuantity)
-        .then((basket) => dispatch(setBasket(basket)))
-        .catch((error) => console.log(error))
-        .finally(() => setsubmitting(false));
+      dispatch(addBasketItemAsync({productId: product?.id!,quantity: uppdatedQuantity}))
     } else {
       const uppdatedQuantity = item.quantity - quantity;
-      agent.Basket.removeItem(product?.id!, uppdatedQuantity)
-        .then(() => dispatch(removeItem({productId: product?.id!, quantity: uppdatedQuantity})))
-        .catch((error) => console.log(error))
-        .finally(() => setsubmitting(false));
+      dispatch(removeBasketItemAsync({productId: product?.id!,quantity: uppdatedQuantity}))
     }
   }
 
@@ -124,7 +118,7 @@ function ProductDtails() {
               <Grid item xs={6}>
                 <LoadingButton
                 disabled={item?.quantity === quantity || (!item && quantity === 0)}
-                  loading={submitting}
+                  loading={status.includes('pendingRemoveItem' +item?.productId)}
                   onClick={handelUppdateCard}
                   sx={{ height: "55px" }}
                   color="primary"
