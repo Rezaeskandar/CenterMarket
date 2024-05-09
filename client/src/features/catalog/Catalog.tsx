@@ -6,12 +6,14 @@ import {
   fetchFilters,
   fetchProductsAsync,
   productSelectors,
+  setPageNumber,
   setProductParams,
 } from "./catalogSlice";
-import { Box, Grid, Pagination, Paper, Typography } from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 import ProductSearch from "./ProductSearch";
 import RadioButtonGroup from "../../app/api/components/RadioButtonGroup";
 import CheckboxButtons from "../../app/api/components/CheckboxButtons";
+import AppPagination from "../../app/api/components/AppPagination";
 
 const sortOptions =[
   {value: 'name', lable: 'Alphabetical'},
@@ -23,7 +25,7 @@ export default function Catalog() {
   // here we are getting list of products from catalogSlice
   const products = useAppSelector(productSelectors.selectAll);
   // using loading from redux statte
-  const { productsLoaded, status, filtersLoaded , brands, types,productParams} = useAppSelector(
+  const { productsLoaded, filtersLoaded , brands, types,productParams,metaData} = useAppSelector(
     (state) => state.catalog
   );
   // usnig of createAsyncThumk
@@ -37,11 +39,10 @@ export default function Catalog() {
     if (!filtersLoaded) dispatch(fetchFilters());
   }, [filtersLoaded, dispatch]);
 
-  if (status.includes("pending"))
-    return <LoadingComponent message=" Loading Products..." />;
+  if (!filtersLoaded)  return <LoadingComponent message=" Loading Products..." />;
 
   return (
-    <Grid container spacing ={4}>
+    <Grid container columnSpacing ={4}>
       {/* search box */}
       <Grid item xs= {3}>
         <Paper sx ={{mb: 2}}>
@@ -78,19 +79,12 @@ export default function Catalog() {
       </Grid>
 
        {/* pagination */}
-       <Grid item xs= {3}/>
-        <Grid item xs= {9}>
-            <Box display='flex' justifyContent='space-between' alignItems='center' >
-                <Typography>
-                  Displaying 1-6 of 29 items
-                </Typography>
-                <Pagination
-                color="primary"
-                size="large"
-                count ={10}
-                page={2}
-                />
-            </Box>
+       <Grid item xs= {3} />
+        <Grid item xs= {9} sx={{mb:2}}>
+          {metaData && 
+            <AppPagination metaData={metaData} 
+            onPageChange={(page:number) => dispatch(setPageNumber({pageNumber: page}))}/>
+          }
             </Grid>
     </Grid>
   );
