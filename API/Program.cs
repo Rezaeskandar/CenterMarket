@@ -1,5 +1,8 @@
 using API.Data;
+using API.Entities;
 using API.Middleware;
+using API.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +16,20 @@ builder.Services.AddDbContext<CenterMarketContext>(options => options.UseSqlite(
 
 // for to allowing frontend to make the request to the api 
 builder.Services.AddCors();
+
+// configuration for identity 
+builder.Services.AddIdentityCore<User>(opt => {
+    
+    // example reduce password complextiy  
+    // opt.Password.RequireNonAlphanumeric =false;
+    opt.User.RequireUniqueEmail =true;
+})
+.AddRoles<IdentityRole>()
+.AddEntityFrameworkStores<CenterMarketContext>();
+builder.Services.AddAuthentication();
+builder.Services.AddAuthentication();
+builder.Services.AddScoped<TokenService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline. 
@@ -33,12 +50,14 @@ app.UseAuthorization();
 app.MapControllers();
 
 var scope = app.Services.CreateScope(); 
+//innislizing producs and user to database when app starts 
 var context = scope.ServiceProvider.GetRequiredService<CenterMarketContext>();
+var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 try
 {
-    context.Database.Migrate();
-    DbInitializer.Initialize(context);
+    await context.Database.MigrateAsync();
+   await DbInitializer.Initialize(context,userManager);
 }
 catch (Exception ex)
 {

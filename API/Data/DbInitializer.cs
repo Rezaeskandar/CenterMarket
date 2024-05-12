@@ -1,12 +1,35 @@
 
 using API.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace API.Data
 {
     public static class DbInitializer
     {
-        public static void Initialize (CenterMarketContext context)
+        public static async Task Initialize (CenterMarketContext context, UserManager<User> UserManager)
         {
+            if(!UserManager.Users.Any())
+            {
+                var user = new User 
+                {
+                    UserName = "rez",
+                    Email = "rez@test.com"
+                };
+
+                await UserManager.CreateAsync(user,"Pa$$w0rd");
+                await UserManager.AddToRoleAsync(user,"Member");
+
+                  var admin = new User 
+                {
+                    UserName = "admin",
+                    Email = "admin@test.com"
+                };
+
+                await UserManager.CreateAsync(admin,"Pa$$w0rd");
+                await UserManager.AddToRolesAsync(admin, new[] {"Member","Admin"});
+
+            }
+
            
 
             // Look for any products.
