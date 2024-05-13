@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { Link, NavLink } from "react-router-dom";
 import { useAppSelector } from "../store/configureStore";
+import SignedInMenu from "./SignedInMenu";
 
 interface Props {
   darkMode: boolean;
@@ -42,6 +43,7 @@ const navStyles = {
 
 function Header({ darkMode, handleThemeChange }: Props) {
   const {basket} = useAppSelector(state => state.basket);
+  const {user} = useAppSelector(state => state.account);
   const ItemCont = basket?.items.reduce((sum,item)=> sum+item.quantity,0)
   return (
     <AppBar position="static" sx={{ mb: 4 }}>
@@ -86,14 +88,19 @@ function Header({ darkMode, handleThemeChange }: Props) {
             </Badge>
           </IconButton>
 
-          {/* rightLiks */}
-          <List sx={{ display: "flex" }}>
-            {rightLinks.map(({ title, path }) => (
-              <ListItem component={NavLink} to={path} key={path} sx={navStyles}>
-                {title.toLocaleUpperCase()}
-              </ListItem>
-            ))}
-          </List>
+
+            {/* rightLiks */}
+            {user ? (<SignedInMenu/>)
+            :(
+               
+              <List sx={{ display: "flex" }}>
+              {rightLinks.map(({ title, path }) => (
+                <ListItem component={NavLink} to={path} key={path} sx={navStyles}>
+                  {title.toLocaleUpperCase()}
+                </ListItem>
+              ))}
+            </List>
+            )}      
         </Box>
       </Toolbar>
     </AppBar>
