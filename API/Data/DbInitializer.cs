@@ -35,206 +35,134 @@ namespace API.Data
             // Look for any products.
             if (context.Products.Any()) return;   // DB has been seeded
             
-
-            var products = new List<Product>
-            {
-             		new Product
+                var products = new List<Product>
                 {
-                    Name = "Angular Speedster Board 2000",
-                    Description =
-                        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
-                    Price = 20000,
-                    PictureUrl = "/images/products/sb-ang1.png",
-                    Brand = "Angular",
-                    Type = "Boards",
-                    QuantityInStock = 100
-                },
-                new Product
-                {
-                    Name = "Green Angular Board 3000",
-                    Description = "Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.",
-                    Price = 15000,
-                    PictureUrl = "/images/products/sb-ang2.png",
-                    Brand = "Angular",
-                    Type = "Boards",
-                    QuantityInStock = 100
-                },
-                new Product
-                {
-                    Name = "Core Board Speed Rush 3",
-                    Description =
-                        "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
-                    Price = 18000,
-                    PictureUrl = "/images/products/sb-core1.png",
-                    Brand = "NetCore",
-                    Type = "Boards",
-                    QuantityInStock = 100
-                },
-                new Product
-                {
-                    Name = "Net Core Super Board",
-                    Description =
-                        "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
-                    Price = 30000,
-                    PictureUrl = "/images/products/sb-core2.png",
-                    Brand = "NetCore",
-                    Type = "Boards",
-                    QuantityInStock = 100
-                },
-                new Product
-                {
-                    Name = "React Board Super Whizzy Fast",
-                    Description =
-                        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
-                    Price = 25000,
-                    PictureUrl = "/images/products/sb-react1.png",
-                    Brand = "React",
-                    Type = "Boards",
-                    QuantityInStock = 100
-                },
-                new Product
-                {
-                    Name = "Typescript Entry Board",
-                    Description =
-                        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
-                    Price = 12000,
-                    PictureUrl = "/images/products/sb-ts1.png",
-                    Brand = "TypeScript",
-                    Type = "Boards",
-                    QuantityInStock = 100
-                },
-                new Product
-                {
-                    Name = "Core Blue Hat",
-                    Description =
-                        "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
-                    Price = 1000,
-                    PictureUrl = "/images/products/hat-core1.png",
-                    Brand = "NetCore",
-                    Type = "Hats",
-                    QuantityInStock = 100
-                },
-                new Product
-                {
-                    Name = "Green React Woolen Hat",
-                    Description =
-                        "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
-                    Price = 8000,
-                    PictureUrl = "/images/products/hat-react1.png",
-                    Brand = "React",
-                    Type = "Hats",
-                    QuantityInStock = 100
-                },
-                new Product
-                {
-                    Name = "Purple React Woolen Hat",
-                    Description =
-                        "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
-                    Price = 1500,
-                    PictureUrl = "/images/products/hat-react2.png",
-                    Brand = "React",
-                    Type = "Hats",
-                    QuantityInStock = 100
-                },
-                new Product
-                {
-                    Name = "Blue Code Gloves",
-                    Description =
-                        "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
-                    Price = 1800,
-                    PictureUrl = "/images/products/glove-code1.png",
-                    Brand = "VS Code",
-                    Type = "Gloves",
-                    QuantityInStock = 100
-                },
-                new Product
-                {
-                    Name = "Green Code Gloves",
-                    Description =
-                        "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
-                    Price = 1500,
-                    PictureUrl = "/images/products/glove-code2.png",
-                    Brand = "VS Code",
-                    Type = "Gloves",
-                    QuantityInStock = 100
-                },
-                new Product
-                {
-                    Name = "Purple React Gloves",
-                    Description =
-                        "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
-                    Price = 1600,
-                    PictureUrl = "/images/products/glove-react1.png",
-                    Brand = "React",
-                    Type = "Gloves",
-                    QuantityInStock = 100
-                },
-                new Product
-                {
-                    Name = "Green React Gloves",
-                    Description =
-                        "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
-                    Price = 1400,
-                    PictureUrl = "/images/products/glove-react2.png",
-                    Brand = "React",
-                    Type = "Gloves",
-                    QuantityInStock = 100
-                },
-                new Product
-                {
-                    Name = "Redis Red Boots",
-                    Description =
-                        "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
-                    Price = 25000,
-                    PictureUrl = "/images/products/boot-redis1.png",
-                    Brand = "Redis",
-                    Type = "Boots",
-                    QuantityInStock = 100
-                },
-                new Product
-                {
-                    Name = "Core Red Boots",
-                    Description =
-                        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
-                    Price = 18999,
-                    PictureUrl = "/images/products/boot-core2.png",
-                    Brand = "NetCore",
-                    Type = "Boots",
-                    QuantityInStock = 100
-                },
-                new Product
-                {
-                    Name = "Core Purple Boots",
-                    Description =
-                        "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
-                    Price = 19999,
-                    PictureUrl = "/images/products/boot-core1.png",
-                    Brand = "NetCore",
-                    Type = "Boots",
-                    QuantityInStock = 100
-                },
-                new Product
-                {
-                    Name = "Angular Purple Boots",
-                    Description = "Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.",
-                    Price = 15000,
-                    PictureUrl = "/images/products/boot-ang2.png",
-                    Brand = "Angular",
-                    Type = "Boots",
-                    QuantityInStock = 100
-                },
-                new Product
-                {
-                    Name = "Angular Blue Boots",
-                    Description =
-                        "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
-                    Price = 18000,
-                    PictureUrl = "/images/products/boot-ang1.png",
-                    Brand = "Angular",
-                    Type = "Boots",
-                    QuantityInStock = 100
-                },
-            };
+                    // Phones
+                    new Product
+                    {
+                        Name = "iPhone 13 Pro",
+                        Description = "The iPhone 13 Pro features a 6.1-inch Super Retina XDR display with ProMotion, A15 Bionic chip, and a triple-camera system with advanced computational photography.",
+                        Price = 99900,
+                        PictureUrl = "/images/phones/iphone13pro.png",
+                        Brand = "Apple",
+                        Type = "Smartphone",
+                        QuantityInStock = 50
+                    },
+                    new Product
+                    {
+                        Name = "Samsung Galaxy S21",
+                        Description = "The Samsung Galaxy S21 comes with a 6.2-inch Dynamic AMOLED 2X display, Exynos 2100 processor, and a versatile triple-camera setup.",
+                        Price = 79999,
+                        PictureUrl = "/images/phones/galaxys21.png",
+                        Brand = "Samsung",
+                        Type = "Smartphone",
+                        QuantityInStock = 75
+                    },
+                    // Laptops
+                    new Product
+                    {
+                        Name = "MacBook Pro 16",
+                        Description = "The MacBook Pro 16 features a 16-inch Retina display, M1 Pro chip, 16GB RAM, and 512GB SSD for exceptional performance.",
+                        Price = 249900,
+                        PictureUrl = "/images/laptops/macbookpro16.png",
+                        Brand = "Apple",
+                        Type = "Laptop",
+                        QuantityInStock = 30
+                    },
+                    new Product
+                    {
+                        Name = "Dell XPS 13",
+                        Description = "Dell XPS 13 comes with a 13.4-inch FHD+ display, Intel Core i7-1165G7, 16GB RAM, and 512GB SSD, known for its compact design and performance.",
+                        Price = 139999,
+                        PictureUrl = "/images/laptops/xps13.png",
+                        Brand = "Dell",
+                        Type = "Laptop",
+                        QuantityInStock = 45
+                    },
+                    // Watches
+                    new Product
+                    {
+                        Name = "Apple Watch Series 7",
+                        Description = "Apple Watch Series 7 features a larger, always-on Retina display, advanced health monitoring, and powerful fitness tracking.",
+                        Price = 39999,
+                        PictureUrl = "/images/watches/applewatch7.png",
+                        Brand = "Apple",
+                        Type = "Smartwatch",
+                        QuantityInStock = 100
+                    },
+                    new Product
+                    {
+                        Name = "Samsung Galaxy Watch 4",
+                        Description = "Samsung Galaxy Watch 4 offers a sleek design, advanced health tracking, and seamless connectivity with Android devices.",
+                        Price = 34999,
+                        PictureUrl = "/images/watches/galaxywatch4.png",
+                        Brand = "Samsung",
+                        Type = "Smartwatch",
+                        QuantityInStock = 120
+                    },
+                    // Tablets
+                    new Product
+                    {
+                        Name = "iPad Pro 12.9",
+                        Description = "iPad Pro 12.9 features a Liquid Retina XDR display, M1 chip, and support for Apple Pencil and Magic Keyboard.",
+                        Price = 109999,
+                        PictureUrl = "/images/tablets/ipadpro12.png",
+                        Brand = "Apple",
+                        Type = "Tablet",
+                        QuantityInStock = 60
+                    },
+                    new Product
+                    {
+                        Name = "Samsung Galaxy Tab S7+",
+                        Description = "Samsung Galaxy Tab S7+ offers a 12.4-inch Super AMOLED display, Snapdragon 865+ processor, and S Pen support.",
+                        Price = 89999,
+                        PictureUrl = "/images/tablets/galaxytabs7plus.png",
+                        Brand = "Samsung",
+                        Type = "Tablet",
+                        QuantityInStock = 70
+                    },
+                    // Additional products
+                    new Product
+                    {
+                        Name = "Google Pixel 6",
+                        Description = "Google Pixel 6 offers a 6.4-inch AMOLED display, Google Tensor processor, and an advanced dual-camera system for stunning photos and videos.",
+                        Price = 59999,
+                        PictureUrl = "/images/phones/pixel6.png",
+                        Brand = "Google",
+                        Type = "Smartphone",
+                        QuantityInStock = 80
+                    },
+                    new Product
+                    {
+                        Name = "Huawei MateBook X Pro",
+                        Description = "Huawei MateBook X Pro features a 13.9-inch 3K display, Intel Core i7-1165G7, 16GB RAM, and 1TB SSD, known for its premium design and performance.",
+                        Price = 149999,
+                        PictureUrl = "/images/laptops/matebookxpro.png",
+                        Brand = "Huawei",
+                        Type = "Laptop",
+                        QuantityInStock = 25
+                    },
+                    new Product
+                    {
+                        Name = "Garmin Forerunner 945",
+                        Description = "Garmin Forerunner 945 is a high-end GPS smartwatch designed for athletes, with advanced performance metrics and long battery life.",
+                        Price = 49999,
+                        PictureUrl = "/images/watches/forerunner945.png",
+                        Brand = "Garmin",
+                        Type = "Smartwatch",
+                        QuantityInStock = 50
+                    },
+                    new Product
+                    {
+                        Name = "Microsoft Surface Go 2",
+                        Description = "Microsoft Surface Go 2 includes a 10.5-inch PixelSense display, Intel Pentium Gold processor, 8GB RAM, and 128GB SSD, designed for versatility and portability.",
+                        Price = 54999,
+                        PictureUrl = "/images/tablets/surfacego2.png",
+                        Brand = "Microsoft",
+                        Type = "Tablet",
+                        QuantityInStock = 40
+                    }
+                };
 
             foreach (Product product in products)
             {

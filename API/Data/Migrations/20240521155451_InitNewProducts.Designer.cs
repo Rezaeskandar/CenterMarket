@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(CenterMarketContext))]
-    [Migration("20240516161321_OrderEntityAdded")]
-    partial class OrderEntityAdded
+    [Migration("20240521155451_InitNewProducts")]
+    partial class InitNewProducts
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
