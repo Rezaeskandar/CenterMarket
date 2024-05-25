@@ -1,4 +1,3 @@
-import { CheckBox } from "@mui/icons-material";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import { UseControllerProps, useController } from "react-hook-form";
 
