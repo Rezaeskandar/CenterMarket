@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-export const validationSchema = yup.object({
+export const validationSchema = [ yup.object({
     fullName: yup.string().required('Full name is required'),
     address1: yup.string().required('Adress 1 is required'),
     address2: yup.string().required('Adress 2 is required'),
@@ -9,4 +9,9 @@ export const validationSchema = yup.object({
     Zip: yup.string().required(),
     countery: yup.string().required(),
 
+}),
+yup.object(),
+yup.object({
+    nameOnCard: yup.string().required()
 })
+]
